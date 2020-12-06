@@ -56,7 +56,7 @@ def saveData(dataList):
             worksheet.write( cnt, 1, data[1])
             worksheet.write( cnt, 2, data[2])
             cnt = cnt+1
-    workbook.save('"今日头条有关疫情的新闻信息.xls')
+    workbook.save('今日头条有关疫情的新闻信息.xls')
 
 
 
