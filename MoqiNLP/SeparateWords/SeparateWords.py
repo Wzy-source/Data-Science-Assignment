@@ -42,13 +42,12 @@ def separateContent(dataList):
         outstr=[]
         for word in seg_list:
             if word not in stopwordslist1:
-                if word != '\t':
+                if word != '\t' and word!=' ' and (not word.isdigit()):
                     outstr.append(word)
         listOfDealedContent.append(outstr)
     return listOfDealedContent
 
+#主程序部分
 table=getDataTable('..\..\WzySpiderProject\\NewsHeadlines\PeopleWebSpider\疫情&抗疫相关新闻信息.xls')
 dataList=getDataList(table)
 listOfDealedContent=separateContent(dataList);
-print(listOfDealedContent[0])
-print('\\'.join(listOfDealedContent[0]))
