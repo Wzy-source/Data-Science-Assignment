@@ -18,9 +18,9 @@ wc = WordCloud(
         # 设置背景高
         height=500,
         # 最大字体
-        max_font_size=50,
+        max_font_size=80,
         # 最小字体
-        min_font_size=10,
+        min_font_size=20,
         mode='RGBA'
         #colormap='pink'
         )
