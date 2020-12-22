@@ -25,7 +25,7 @@ def main():
 
 
 # 影片详情链接的规则
-findLink = re.compile(r'<a href="(.*?)">')  # 创建正则表达式对象，表示规则（字符串的模式）
+findLink = re.compile(r'<a href="(.*?)"')  # 创建正则表达式对象，表示规则（字符串的模式）
 # 影片图片
 findImgSrc = re.compile(r'<img.*src="(.*?)"', re.S)  # re.S 让换行符包含在字符中
 # 影片片名
