@@ -1,6 +1,6 @@
 from numpy import double
 
-f=open('score.txt','r')
+f=open('score1.txt', 'r')
 positive=0
 negative=0
 list=f.readlines()

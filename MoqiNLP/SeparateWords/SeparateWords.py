@@ -3,7 +3,7 @@ import xlrd
 
 
 # 创建停用词list
-def stopwordslist(filepath):
+def createwordslist(filepath):
     stopwords = [line.strip() for line in open(filepath, 'r', encoding='utf-8').readlines()]
     return stopwords
 
@@ -34,19 +34,20 @@ def separateContent(dataList):
 
     #将内容列表中的所有字符串进行分词，并存入新列表
     listOfDealedContent=[]
-    stopwordslist1=stopwordslist('..\WordsRepos\StopWords\cn_stopwords.txt')
+    stopwordslist1=createwordslist('..\WordsRepos\StopWords\cn_stopwords.txt')
+    degreeWordsList=createwordslist('..\WordsRepos\DegreeWords\\all.txt')
     for contentOfPerArticle in listOfContent:
         seg_list = jieba.cut(contentOfPerArticle)
         outstr=[]
         for word in seg_list:
-            if word not in stopwordslist1:
+            if word not in stopwordslist1 or word in degreeWordsList:
                 if word != '\t' and word!=' ' and (not word.isdigit()):
                     outstr.append(word)
         listOfDealedContent.append(outstr)
     return listOfDealedContent
 
 #主程序部分
-
 table=getDataTable('..\..\WzySpiderProject\\NewsHeadlines\PeopleWebSpider\疫情&抗疫相关新闻信息.xls')
 dataList=getDataList(table)
 listOfDealedContent=separateContent(dataList)
+print(listOfDealedContent[4099])
