@@ -7,8 +7,6 @@ def stopwordslist(filepath):
     stopwords = [line.strip() for line in open(filepath, 'r', encoding='utf-8').readlines()]
     return stopwords
 
-#先调试我的jieba词库
-
 
 def getDataTable(path):
     #得到文件表格
@@ -48,6 +46,7 @@ def separateContent(dataList):
     return listOfDealedContent
 
 #主程序部分
-table=getDataTable('..\..\WzySpiderProject\\NewsHeadlines\PeopleWebSpider\疫情&抗疫相关新闻信息.xls')
-dataList=getDataList(table)
-listOfDealedContent=separateContent(dataList);
+if __name__ == '__main__':
+    table=getDataTable('..\..\WzySpiderProject\\NewsHeadlines\PeopleWebSpider\疫情&抗疫相关新闻信息.xls')
+    dataList=getDataList(table)
+    listOfDealedContent=separateContent(dataList)
