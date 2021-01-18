@@ -46,7 +46,7 @@ def separateContent(dataList):
     return listOfDealedContent
 
 #主程序部分
-if __name__ == '__main__':
-    table=getDataTable('..\..\WzySpiderProject\\NewsHeadlines\PeopleWebSpider\疫情&抗疫相关新闻信息.xls')
-    dataList=getDataList(table)
-    listOfDealedContent=separateContent(dataList)
+
+table=getDataTable('..\..\WzySpiderProject\\NewsHeadlines\PeopleWebSpider\疫情&抗疫相关新闻信息.xls')
+dataList=getDataList(table)
+listOfDealedContent=separateContent(dataList)
