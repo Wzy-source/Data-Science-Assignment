@@ -1,9 +1,11 @@
 from numpy import double
-
-f=open('score1.txt', 'r')
+'''用于数结果的，主要怕出现高于10分的'''
+f=open('score2.txt', 'r')
 positive=0
 negative=0
 list=f.readlines()
+max=0
+min=0
 for score in list:
     if(score=='无效\n'):
         continue
@@ -12,5 +14,12 @@ for score in list:
     elif(double(score.strip())<0):
         negative=negative+1
 
+    if double(score.strip())>max:
+        max=double(score.strip())
+    if double(score.strip())<min:
+        min=double(score.strip())
+
 print(positive)
 print(negative)
+print(max)
+print(min)
