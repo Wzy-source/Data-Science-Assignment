@@ -7,6 +7,9 @@ from keras.optimizers import SGD
 from keras.models import load_model
 
 import pandas as pd
+import MoqiNLP.Analysis.DealWeiboData as WeiboData
+import MoqiNLP.SeparateWords.SeparateWords as SeparateWords
+import jieba
 
 pos = pd.read_excel('..\WordsRepos\\EmotionWords\\pos.xls', header=None)
 pos['label'] = 1
@@ -28,21 +31,25 @@ word_set = set(abc.index)
 
 def doc2num(s, maxlen):
     s = [i for i in s if i in word_set]
-    print(s)
     s = s[:maxlen] + [''] * max(0, maxlen - len(s))
-    print(s)
-    print(list(abc[s]))
     return list(abc[s])
 
 
 def predict_one(s):  # 单个句子的预测函数
     s = np.array(doc2num(s, maxlen))
-    print(s)
     s = s.reshape((1, s.shape[0]))
     return model.predict_classes(s, verbose=0)[0][0]
 
 
 model = load_model('model5.h5')
 
-print(predict_one('我讨厌你'))
-
+for k in range(1,8):
+    weiboDataList = WeiboData.getDataList(k)
+    f = open('..\ResultData\WeiboScore'+str(k)+'.txt', 'w+')
+    for singleWeibo in weiboDataList:
+        for comment in singleWeibo:
+            res=predict_one(comment)
+            print(res)
+            f.write(str(res)+'\n')
+        print('——————————单条微博分隔符——————————')
+        f.write('——————————单条微博分隔符——————————\n')

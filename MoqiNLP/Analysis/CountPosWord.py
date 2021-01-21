@@ -1,15 +1,15 @@
 from numpy import double
 '''用于数结果的，主要怕出现高于10分的'''
-f=open('score2.txt', 'r')
+f=open('..\ResultData\WeiboScore1.txt', 'r')
 positive=0
 negative=0
 list=f.readlines()
 max=0
 min=0
 for score in list:
-    if(score=='无效\n'):
+    if score.startswith('——') or score.startswith('无效'):
         continue
-    if(double(score.strip())>5):
+    if(double(score.strip())>0):
         positive=positive+1
     elif(double(score.strip())<0):
         negative=negative+1

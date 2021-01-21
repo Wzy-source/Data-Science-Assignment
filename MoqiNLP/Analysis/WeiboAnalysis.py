@@ -15,7 +15,7 @@ def getDataList(table1):
 
 # 计算每个情感词的基础分
 def transform(dic):
-    if (int(dic.get('极性')) == 0 or int(dic.get('极性')) == 3):
+    if int(dic.get('极性')) == 0 or int(dic.get('极性')) == 3:
         return 0.0
     score = (dic.get('强度') + 1)
     if int(dic.get('极性')) == 2:
@@ -45,9 +45,9 @@ mostWordList = SeparateWords.createwordslist('..\WordsRepos\DegreeWords\most4.tx
 veryWordList = SeparateWords.createwordslist('..\WordsRepos\DegreeWords\\very3.txt')
 stopWordList= SeparateWords.createwordslist('..\WordsRepos\StopWords\cn_stopwords.txt')
 degreeWordsList=SeparateWords.createwordslist('..\WordsRepos\DegreeWords\\all.txt')
-for k in range(3,4):
+for k in range(7,8):
     weiboDataList = WeiboData.getDataList(k)
-    f = open('WeiboScore'+str(k)+'.txt', 'w+')
+    f = open('..\ResultData\WeiboScore'+str(k)+'.txt', 'w+')
     result=[]
     tmp=[]
     for singleWeibo in weiboDataList:
