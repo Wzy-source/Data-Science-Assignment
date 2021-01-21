@@ -26,3 +26,15 @@ def getDataList(num):
     dataTable = getDataTable('..\..\WzySpiderProject\WeiboSpider\\微博id：健康中国(热门含评论)' + str(num) + '.xls')
     dataList = getComments(dataTable)
     return dataList
+
+
+def getTimeList(num):
+    table = getDataTable('..\..\WzySpiderProject\WeiboSpider\\微博id：健康中国(热门含评论)' + str(num) + '.xls')
+    timeList=[]
+    tmpList=[]
+    for i in range(1, table.nrows):
+        tmpList.append(table.cell_value(i,4))
+        tmpList.append(table.cell_value(i,5))
+        timeList.append(tmpList)
+        tmpList=[]
+    return timeList

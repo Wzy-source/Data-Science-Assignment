@@ -2,34 +2,24 @@ import MoqiNLP.Analysis.DealWeiboData as WeiboData
 import MoqiNLP.SeparateWords.SeparateWords as SeparateWords
 import jieba
 
-
-# è·å–è¡¨æ ¼çš„æ•°æ®ï¼Œä¸»ç»“æ„æ˜¯åˆ—è¡¨ï¼Œåˆ—è¡¨é‡Œçš„æ¯ä¸ªå…ƒç´ æ˜¯å­—å…¸
+#»ñÈ¡±í¸ñµÄÊı¾İ£¬Ö÷½á¹¹ÊÇÁĞ±í£¬ÁĞ±íÀïµÄÃ¿¸öÔªËØÊÇ×Öµä
 def getDataList(table1):
     dataList = []
     for i in range(0, table1.nrows):
-        perRowsDataDict = {'è¯è¯­': table1.cell_value(i, 0), 'è¯æ€§ç§ç±»': table1.cell_value(i, 1),
-                           'è¯ä¹‰æ•°': table1.cell_value(i, 2), 'è¯ä¹‰åºå·': table1.cell_value(i, 3),
-                           'æƒ…æ„Ÿåˆ†ç±»': table1.cell_value(i, 4), 'å¼ºåº¦': table1.cell_value(i, 5),
-                           'ææ€§': table1.cell_value(i, 6)}
+        perRowsDataDict = {'´ÊÓï': table1.cell_value(i, 0), '´ÊĞÔÖÖÀà': table1.cell_value(i, 1),
+                           '´ÊÒåÊı': table1.cell_value(i, 2), '´ÊÒåĞòºÅ': table1.cell_value(i, 3),
+                           'Çé¸Ğ·ÖÀà': table1.cell_value(i, 4), 'Ç¿¶È': table1.cell_value(i, 5),
+                           '¼«ĞÔ': table1.cell_value(i, 6)}
         dataList.append(perRowsDataDict)
     return dataList
 
-
-# è®¡ç®—æ¯ä¸ªæƒ…æ„Ÿè¯çš„åŸºç¡€åˆ†
-def transform(dic):
-    if int(dic.get('ææ€§')) == 0 or int(dic.get('ææ€§')) == 3:
-        return 0.0
-    score = (dic.get('å¼ºåº¦') + 1)
-    if int(dic.get('ææ€§')) == 2:
-        return -1 * score
-    return score
+# ¼ÆËãÃ¿¸öÇé¸Ğ´ÊµÄ»ù´¡·Ö
+#def transform(dic):
 
 
 stopWordList = SeparateWords.createwordslist('..\WordsRepos\StopWords\cn_stopwords.txt')
-
-
 def cutWords(commit):
-    seg_list = jieba.cut(commit)
+    seg_list=jieba.cut(commit)
     outstr = []
     for word in seg_list:
         if word not in stopWordList or word in degreeWordsList:
@@ -38,32 +28,31 @@ def cutWords(commit):
     return outstr
 
 
-dataList = getDataList(SeparateWords.getDataTable('..\WordsRepos\EmotionWords\æƒ…æ„Ÿè¯æ±‡æœ¬ä½“.xlsx'))
+dataList = getDataList(SeparateWords.getDataTable('..\WordsRepos\EmotionWords\Çé¸Ğ´Ê»ã±¾Ìå.xlsx'))
 emotionWordList = []
 for dic in dataList:
-    emotionWordList.append(dic.get('è¯è¯­'))
+    emotionWordList.append(dic.get('´ÊÓï'))
 degreeWordList = SeparateWords.createwordslist('..\WordsRepos\DegreeWords\\all.txt')
 inverseWordList = SeparateWords.createwordslist('..\WordsRepos\DegreeWords\inverse.txt')
 ishWordList = SeparateWords.createwordslist('..\WordsRepos\DegreeWords\ish1.txt')
 moreWordList = SeparateWords.createwordslist('..\WordsRepos\DegreeWords\more2.txt')
 mostWordList = SeparateWords.createwordslist('..\WordsRepos\DegreeWords\most4.txt')
 veryWordList = SeparateWords.createwordslist('..\WordsRepos\DegreeWords\\very3.txt')
-stopWordList = SeparateWords.createwordslist('..\WordsRepos\StopWords\cn_stopwords.txt')
-degreeWordsList = SeparateWords.createwordslist('..\WordsRepos\DegreeWords\\all.txt')
-for k in range(1, 8):
+stopWordList= SeparateWords.createwordslist('..\WordsRepos\StopWords\cn_stopwords.txt')
+degreeWordsList=SeparateWords.createwordslist('..\WordsRepos\DegreeWords\\all.txt')
+for k in range(7,8):
     weiboDataList = WeiboData.getDataList(k)
-    f = open('..\ResultData\WeiboScore' + str(k) + '.txt', 'w+')
-    result = []
-    tmp = []
+    f = open('..\ResultData\WeiboScore'+str(k)+'.txt', 'w+')
+    result=[]
+    tmp=[]
     for singleWeibo in weiboDataList:
         for commit in singleWeibo:
             score = 0
             count = 0
-            wordList = cutWords(commit)
-            #wordList='æœ‰ç”¨å—ï¼Ÿè¿™æ ·æœ‰ç”¨å—ï¼Ÿæœ‰ç”¨å—ï¼Ÿè‡ªæˆ‘æ¬ºéª—æœ‰ç”¨å—ï¼Ÿ'
+            wordList=cutWords(commit)
             for i in range(0, len(wordList)):
                 for j in range(0, len(dataList)):
-                    if wordList[i] == dataList[j].get('è¯è¯­'):
+                    if wordList[i] == dataList[j].get('´ÊÓï'):
                         scoreTmp = transform(dataList[j])
                         k = i
                         while (k > 0):
@@ -73,25 +62,25 @@ for k in range(1, 8):
                             if wordList[k] in degreeWordList:
                                 if wordList[k] in inverseWordList:
                                     scoreTmp = -scoreTmp
-                                    print('å­˜åœ¨å¦å®šè¯')
+                                    print('´æÔÚ·ñ¶¨´Ê')
                                     continue
                                 if wordList[k] in ishWordList:
                                     scoreTmp = 0.8 * scoreTmp
-                                    print('å­˜åœ¨è½»å¾®ä¿®é¥°è¯')
+                                    print('´æÔÚÇáÎ¢ĞŞÊÎ´Ê')
                                     continue
                                 if wordList[k] in moreWordList:
                                     scoreTmp = 1.2 * scoreTmp
-                                    print('å­˜åœ¨æ›´ä¿®é¥°è¯')
+                                    print('´æÔÚ¸üĞŞÊÎ´Ê')
                                     continue
                                 if wordList[k] in mostWordList:
                                     scoreTmp = 2 * scoreTmp
-                                    print('å­˜åœ¨æœ€ä¿®é¥°è¯')
+                                    print('´æÔÚ×îĞŞÊÎ´Ê')
                                     continue
                                 if wordList[k] in veryWordList:
                                     scoreTmp = 1.5 * scoreTmp
-                                    print('å­˜åœ¨éå¸¸ä¿®é¥°è¯')
+                                    print('´æÔÚ·Ç³£ĞŞÊÎ´Ê')
                                     continue
-                            if (k == i - 3):
+                            if k == i - 3:
                                 break
                         score = score * count + scoreTmp
                         if scoreTmp != 0:
@@ -100,11 +89,11 @@ for k in range(1, 8):
                             score = score / count
             if count > 0:
                 result.append(score)
-                print('å¾—åˆ†:' + str(score))
+                print('µÃ·Ö:' + str(score))
                 f.write(str(score) + '\n')
             else:
                 result.append(-99)
-                print('æ— æ•ˆ')
-                f.write('æ— æ•ˆ\n')
-        f.write('â€”â€”â€”â€”â€”â€”â€”â€”å¾®åšåˆ†å‰²çº¿â€”â€”â€”â€”â€”â€”â€”â€”\n')
-        print('â€”â€”â€”â€”â€”â€”â€”â€”å¾®åšåˆ†å‰²çº¿â€”â€”â€”â€”â€”â€”â€”â€”')
+                print('ÎŞĞ§')
+                f.write('ÎŞĞ§\n')
+        f.write('¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ªÎ¢²©·Ö¸îÏß¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª\n')
+        print('¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ªÎ¢²©·Ö¸îÏß¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª')
