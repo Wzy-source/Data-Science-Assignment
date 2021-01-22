@@ -22,7 +22,6 @@ min_count = 20  # 出现次数少于该值的字扔掉。这是最简单的降�
 
 content = ''.join(all_[0])
 abc = pd.Series(list(content)).value_counts()
-print(abc)
 abc = abc[abc >= min_count]
 abc[:] = list(range(1, len(abc) + 1))
 abc[''] = 0  # 添加空字符串用来补全
@@ -43,9 +42,9 @@ def predict_one(s):  # 单个句子的预测函数
 
 model = load_model('model5.h5')
 
-for k in range(1,8):
+for k in range(7,8):
     weiboDataList = WeiboData.getDataList(k)
-    f = open('..\ResultData\WeiboScore'+str(k)+'.txt', 'w+')
+    f = open('..\ResultData\WeiboScore_2_'+str(k)+'.txt', 'w+')
     for singleWeibo in weiboDataList:
         for comment in singleWeibo:
             res=predict_one(comment)
@@ -53,3 +52,5 @@ for k in range(1,8):
             f.write(str(res)+'\n')
         print('——————————单条微博分隔符——————————')
         f.write('——————————单条微博分隔符——————————\n')
+
+    f.close()
