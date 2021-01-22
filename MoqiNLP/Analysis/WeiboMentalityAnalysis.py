@@ -2,24 +2,74 @@ import MoqiNLP.Analysis.DealWeiboData as WeiboData
 import MoqiNLP.SeparateWords.SeparateWords as SeparateWords
 import jieba
 
-#»ñÈ¡±í¸ñµÄÊı¾İ£¬Ö÷½á¹¹ÊÇÁĞ±í£¬ÁĞ±íÀïµÄÃ¿¸öÔªËØÊÇ×Öµä
+
+# è·å–è¡¨æ ¼çš„æ•°æ®ï¼Œä¸»ç»“æ„æ˜¯åˆ—è¡¨ï¼Œåˆ—è¡¨é‡Œçš„æ¯ä¸ªå…ƒç´ æ˜¯å­—å…¸
 def getDataList(table1):
     dataList = []
     for i in range(0, table1.nrows):
-        perRowsDataDict = {'´ÊÓï': table1.cell_value(i, 0), '´ÊĞÔÖÖÀà': table1.cell_value(i, 1),
-                           '´ÊÒåÊı': table1.cell_value(i, 2), '´ÊÒåĞòºÅ': table1.cell_value(i, 3),
-                           'Çé¸Ğ·ÖÀà': table1.cell_value(i, 4), 'Ç¿¶È': table1.cell_value(i, 5),
-                           '¼«ĞÔ': table1.cell_value(i, 6)}
+        perRowsDataDict = {'è¯è¯­': table1.cell_value(i, 0), 'è¯æ€§ç§ç±»': table1.cell_value(i, 1),
+                           'è¯ä¹‰æ•°': table1.cell_value(i, 2), 'è¯ä¹‰åºå·': table1.cell_value(i, 3),
+                           'æƒ…æ„Ÿåˆ†ç±»': table1.cell_value(i, 4), 'å¼ºåº¦': table1.cell_value(i, 5),
+                           'ææ€§': table1.cell_value(i, 6)}
         dataList.append(perRowsDataDict)
     return dataList
 
-# ¼ÆËãÃ¿¸öÇé¸Ğ´ÊµÄ»ù´¡·Ö
-#def transform(dic):
+
+mapList = ['å¿«ä¹', 'å®‰å¿ƒ', 'å°Šæ•¬', 'èµæ‰¬', 'ç›¸ä¿¡', 'å–œçˆ±', 'ç¥æ„¿', 'æ„¤æ€’', 'æ‚²ä¼¤', 'å¤±æœ›', 'å†…ç–š', 'æ€å¿µ', 'æ…Œå¼ ', 'ææƒ§', 'ç¾è‡Š'
+    , 'çƒ¦é—·', 'æ†æ¶', 'è´¬è´£', 'å¦’å¿Œ', 'æ€€ç–‘', 'æƒŠå¥‡']
+
+
+def transform(dic):
+    tmp = dic.get('æƒ…æ„Ÿåˆ†ç±»')
+    if tmp == 'PA':
+        return 0
+    if tmp == 'PE':
+        return 1
+    if tmp == 'PD':
+        return 2
+    if tmp == 'PH':
+        return 3
+    if tmp == 'PG':
+        return 4
+    if tmp == 'PB':
+        return 5
+    if tmp == 'PK':
+        return 6
+    if tmp == 'NA':
+        return 7
+    if tmp == 'NB':
+        return 8
+    if tmp == 'NJ':
+        return 9
+    if tmp == 'NH':
+        return 10
+    if tmp == 'PF':
+        return 11
+    if tmp == 'NI':
+        return 12
+    if tmp == 'NC':
+        return 13
+    if tmp == 'NG':
+        return 14
+    if tmp == 'NE':
+        return 15
+    if tmp == 'ND':
+        return 16
+    if tmp == 'NN':
+        return 17
+    if tmp == 'NK':
+        return 18
+    if tmp == 'NL':
+        return 19
+    if tmp == 'PC':
+        return 20
 
 
 stopWordList = SeparateWords.createwordslist('..\WordsRepos\StopWords\cn_stopwords.txt')
+
+
 def cutWords(commit):
-    seg_list=jieba.cut(commit)
+    seg_list = jieba.cut(commit)
     outstr = []
     for word in seg_list:
         if word not in stopWordList or word in degreeWordsList:
@@ -28,72 +78,54 @@ def cutWords(commit):
     return outstr
 
 
-dataList = getDataList(SeparateWords.getDataTable('..\WordsRepos\EmotionWords\Çé¸Ğ´Ê»ã±¾Ìå.xlsx'))
+dataList = getDataList(SeparateWords.getDataTable('..\WordsRepos\EmotionWords\æƒ…æ„Ÿè¯æ±‡æœ¬ä½“.xlsx'))
 emotionWordList = []
 for dic in dataList:
-    emotionWordList.append(dic.get('´ÊÓï'))
+    emotionWordList.append(dic.get('è¯è¯­'))
 degreeWordList = SeparateWords.createwordslist('..\WordsRepos\DegreeWords\\all.txt')
 inverseWordList = SeparateWords.createwordslist('..\WordsRepos\DegreeWords\inverse.txt')
 ishWordList = SeparateWords.createwordslist('..\WordsRepos\DegreeWords\ish1.txt')
 moreWordList = SeparateWords.createwordslist('..\WordsRepos\DegreeWords\more2.txt')
 mostWordList = SeparateWords.createwordslist('..\WordsRepos\DegreeWords\most4.txt')
 veryWordList = SeparateWords.createwordslist('..\WordsRepos\DegreeWords\\very3.txt')
-stopWordList= SeparateWords.createwordslist('..\WordsRepos\StopWords\cn_stopwords.txt')
-degreeWordsList=SeparateWords.createwordslist('..\WordsRepos\DegreeWords\\all.txt')
-for k in range(7,8):
+stopWordList = SeparateWords.createwordslist('..\WordsRepos\StopWords\cn_stopwords.txt')
+degreeWordsList = SeparateWords.createwordslist('..\WordsRepos\DegreeWords\\all.txt')
+for k in range(1, 8):
     weiboDataList = WeiboData.getDataList(k)
-    f = open('..\ResultData\WeiboScore'+str(k)+'.txt', 'w+')
-    result=[]
-    tmp=[]
+    f = open('..\ResultData\WeiboMentality' + str(k) + '.txt', 'w+')
+    result = []
+
     for singleWeibo in weiboDataList:
         for commit in singleWeibo:
-            score = 0
+            tmp = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
             count = 0
-            wordList=cutWords(commit)
+            wordList = cutWords(commit)
             for i in range(0, len(wordList)):
                 for j in range(0, len(dataList)):
-                    if wordList[i] == dataList[j].get('´ÊÓï'):
-                        scoreTmp = transform(dataList[j])
+                    if wordList[i] == dataList[j].get('è¯è¯­'):
+                        index = transform(dataList[j])
+                        tmp[index] = tmp[index] + 1
+                        count = count + 1
                         k = i
-                        while (k > 0):
+                        while k > 0:
                             k = k - 1
                             if wordList[k] in emotionWordList:
                                 break
                             if wordList[k] in degreeWordList:
                                 if wordList[k] in inverseWordList:
-                                    scoreTmp = -scoreTmp
-                                    print('´æÔÚ·ñ¶¨´Ê')
+                                    tmp[index] = tmp[index] - 1
+                                    print('å­˜åœ¨å¦å®šè¯')
+                                    count = count - 1
                                     continue
-                                if wordList[k] in ishWordList:
-                                    scoreTmp = 0.8 * scoreTmp
-                                    print('´æÔÚÇáÎ¢ĞŞÊÎ´Ê')
-                                    continue
-                                if wordList[k] in moreWordList:
-                                    scoreTmp = 1.2 * scoreTmp
-                                    print('´æÔÚ¸üĞŞÊÎ´Ê')
-                                    continue
-                                if wordList[k] in mostWordList:
-                                    scoreTmp = 2 * scoreTmp
-                                    print('´æÔÚ×îĞŞÊÎ´Ê')
-                                    continue
-                                if wordList[k] in veryWordList:
-                                    scoreTmp = 1.5 * scoreTmp
-                                    print('´æÔÚ·Ç³£ĞŞÊÎ´Ê')
-                                    continue
-                            if k == i - 3:
-                                break
-                        score = score * count + scoreTmp
-                        if scoreTmp != 0:
-                            count = count + 1
-                        if count != 0:
-                            score = score / count
             if count > 0:
-                result.append(score)
-                print('µÃ·Ö:' + str(score))
-                f.write(str(score) + '\n')
+                maxTmp = max(tmp)
+                indexMax = tmp.index(maxTmp)
+                print(mapList[indexMax])
+                f.write(mapList[indexMax] + '\n')
             else:
                 result.append(-99)
-                print('ÎŞĞ§')
-                f.write('ÎŞĞ§\n')
-        f.write('¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ªÎ¢²©·Ö¸îÏß¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª\n')
-        print('¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ªÎ¢²©·Ö¸îÏß¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª')
+                print('æ— æ•ˆ')
+                f.write('æ— æ•ˆ\n')
+        f.write('â€”â€”â€”â€”â€”â€”â€”â€”å¾®åšåˆ†å‰²çº¿â€”â€”â€”â€”â€”â€”â€”â€”\n')
+        print('â€”â€”â€”â€”â€”â€”â€”â€”å¾®åšåˆ†å‰²çº¿â€”â€”â€”â€”â€”â€”â€”â€”')
+

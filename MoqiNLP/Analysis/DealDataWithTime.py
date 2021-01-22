@@ -2,8 +2,8 @@ import MoqiNLP.Analysis.DealWeiboData as DealWeiboData
 
 
 for k in range(1,8):
-    f1 = open('..\ResultData\WeiboScore_2_' + str(k) + '.txt', 'r')
-    f2 = open('..\ResultData\WeiboScore_2_' + str(k) + 'WithTime.txt', 'w+')
+    f1 = open('..\ResultData\WeiboMentality' + str(k) + '.txt', 'r')
+    f2 = open('..\ResultData\WeiboMentality' + str(k) + 'WithTime.txt', 'w+')
     dataList = f1.readlines()
     timeList = DealWeiboData.getTimeList(k)
     strTmp = timeList[0][0][0:2]
