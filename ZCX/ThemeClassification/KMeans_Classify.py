@@ -7,7 +7,7 @@ from sklearn.cluster import KMeans
 
 count_vec = CountVectorizer()#词频特征提取
 transformer = TfidfTransformer()#TF-IDF特征转化
-kmeans_cluster = KMeans(n_clusters=5)#KMeans模型
+kmeans_cluster = KMeans(n_clusters=4,random_state=19)#KMeans模型
 def analyse_kmeans():
 	print("尝试使用kmeans方法对文本进行聚类分析")
 	#先读取数据
@@ -27,7 +27,7 @@ def analyse_kmeans():
 
 	datagrp = data.groupby('分类')
 	datacls = datagrp.agg(sum)
-#	print(datacls)
+	print(datacls)
 	cuttex = lambda x:cut_with_stopwords(x)
 	dataclusters = datacls['内容'].apply(cuttex)
 
@@ -53,6 +53,17 @@ def cut_with_stopwords(str):
 	return " ".join(res)
 
 
+def map(kind_num,key_list):
+	if '脱贫' in key_list[kind_num] :
+		return '脱贫攻坚'
+	if '抗击'in key_list[kind_num]:
+		return '抗疫相关'
+	if '中国'in key_list[kind_num]:
+		return '国际相关'
+	if'经济社会'in key_list[kind_num]:
+		return '经济相关'
+
+
 def my_test():
 	# 准备使用测试集进行测试
 	# 测试集315篇文章
@@ -76,8 +87,22 @@ def my_test():
 
 	#	print(dataclusters)
 	print("------------------测试集分类-------------------")
+	key_list = []
 	for item in t_dataclusters:
 		print(jieba.analyse.extract_tags(item, topK=10))
+		key_list.append(jieba.analyse.extract_tags(item, topK=1))
+	print(key_list)
+	test_data['分类'] = [map(kind, key_list) for kind in kmeans_cluster.predict(tfidf)]
+#	print(test_data)
+
+	file = open('D:\\2020DataScience\MyWork\Data-Science-Assignment\ZCX\Train_Test\\predict_res.txt','w+',encoding='utf-8')
+	index = 1
+	for itr in test_data.iterrows():
+#		print(itr[0])
+		file.write("------第"+str(index)+"篇文章预测------\r")
+		file.write(itr[1]['分类']+'\r'+str(itr[1]['内容'])+"\r\r")
+		index += 1
+	file.close()
 
 
 if __name__ == "__main__":
