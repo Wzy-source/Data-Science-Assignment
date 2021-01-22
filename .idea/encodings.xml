@@ -5,9 +5,12 @@
     <file url="file://$PROJECT_DIR$/MoqiNLP/Analysis/WeiboMentalityAnalysis.py" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/MoqiNLP/Analysis/score1.txt" charset="GBK" />
     <file url="file://$PROJECT_DIR$/MoqiNLP/Analysis/score2.txt" charset="GBK" />
+    <file url="file://$PROJECT_DIR$/MoqiNLP/Analysis/test.py" charset="GBK" />
     <file url="file://$PROJECT_DIR$/MoqiNLP/ResultData/WeiboScore1.txt" charset="GBK" />
     <file url="file://$PROJECT_DIR$/MoqiNLP/ResultData/WeiboScore6.txt" charset="GBK" />
     <file url="file://$PROJECT_DIR$/MoqiNLP/ResultData/WeiboScore7.txt" charset="GBK" />
+    <file url="file://$PROJECT_DIR$/MoqiNLP/WordsRepos/EmotionWords/nCoV_100k_train.labled.csv" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/MoqiNLP/WordsRepos/EmotionWords/nCov_10k_test.csv" charset="UTF-8" />
     <file url="PROJECT" charset="GBK" />
   </component>
 </project>

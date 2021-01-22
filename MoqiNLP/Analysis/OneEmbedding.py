@@ -1,16 +1,18 @@
-
 import numpy as np
 import pandas as pd
 
-pos = pd.read_excel('..\WordsRepos\\EmotionWords\\pos.xls', header=None)
+pos = pd.read_excel('..\WordsRepos\\EmotionWords\\positive.xls', header=None)
 pos['label'] = 1
-neg = pd.read_excel('..\WordsRepos\\EmotionWords\\neg.xls', header=None)
+neg = pd.read_excel('..\WordsRepos\\EmotionWords\\negative.xls', header=None)
 neg['label'] = 0
 all_ = pos.append(neg, ignore_index=True)
 
-maxlen = 200
-min_count = 20
+for i in range(0, len(all_[0])):
+    all_[0][i]=str(all_[0][i])
 
+
+maxlen = 400
+min_count = 20
 content = ''.join(all_[0])
 abc = pd.Series(list(content)).value_counts()
 abc = abc[abc >= min_count]
@@ -27,7 +29,6 @@ def doc2num(s, maxlen):
 
 all_['doc2num'] = all_[0].apply(lambda s: doc2num(s, maxlen))
 
-
 idx = list(range(len(all_)))
 np.random.shuffle(idx)
 all_ = all_.loc[idx]
@@ -39,7 +40,6 @@ y = y.reshape((-1, 1))
 from keras.models import Sequential
 from keras.layers import Dense, Activation, Dropout, Embedding
 from keras.layers import LSTM
-
 
 model = Sequential()
 model.add(Embedding(len(abc), 256, input_length=maxlen))
@@ -54,8 +54,8 @@ model.compile(loss='binary_crossentropy',
 batch_size = 128
 train_num = 15000
 
-model.fit(x[:train_num], y[:train_num], batch_size=batch_size, epochs=30)
-model.save("model5.h5")
+model.fit(x[:train_num], y[:train_num], batch_size=batch_size, epochs=15)
+model.save("modelv2.0.h5")
 model.evaluate(x[train_num:], y[train_num:], batch_size=batch_size)
 
 
@@ -63,7 +63,6 @@ def predict_one(s):
     s = np.array(doc2num(s, maxlen))
     s = s.reshape((1, s.shape[0]))
     return model.predict_classes(s, verbose=0)[0][0]
-
 
 
 '''f=open('score5.txt','w+')
