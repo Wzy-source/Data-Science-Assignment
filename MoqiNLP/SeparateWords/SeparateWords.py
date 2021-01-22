@@ -50,4 +50,3 @@ def separateContent(dataList):
 table=getDataTable('..\..\WzySpiderProject\\NewsHeadlines\PeopleWebSpider\疫情&抗疫相关新闻信息.xls')
 dataList=getDataList(table)
 listOfDealedContent=separateContent(dataList)
-print(listOfDealedContent[4099])
