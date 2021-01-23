@@ -12,7 +12,7 @@ def analyse_kmeans():
 	print("尝试使用kmeans方法对文本进行聚类分析")
 	#先读取数据
 	#在训练文件中读取
-	data = pd.read_excel("D:\\2020DataScience\MyWork\Data-Science-Assignment\ZCX\Train_Test\\train.xls", sheet_name=0, usecols=[4])
+	data = pd.read_excel("D:\\2020DataScience\MyWork\Data-Science-Assignment\ZCX\Train_Test\\train.xls", sheet_name=0,usecols=[0,1,4])
 	#进行分词处理
 	word_list = [cut_with_stopwords(article) for article in data['内容']]
 	#对切词文本进行词频统计
@@ -23,8 +23,19 @@ def analyse_kmeans():
 
 	kmeans_cluster.fit(tfidf)
 	data['分类'] = kmeans_cluster.labels_
+	#对分类结果进行计数
+	kind_cluster_count_f = open("D:\\2020DataScience\MyWork\Data-Science-Assignment\ZCX\Data_visualization\OfficialNewsVisualization\kccf.txt",
+								"w+",encoding='utf-8')
+	kind_dict = {}
+	for label in kmeans_cluster.labels_:
+		if label in kind_dict:
+			kind_dict[label] += 1
+		else:
+			kind_dict[label] = 1
+	for label in kind_dict:
+		kind_cluster_count_f.write(str(label)+" "+str(kind_dict[label])+'\r')
 #	print(data.head())
-
+	kind_cluster_count_f.close()
 	datagrp = data.groupby('分类')
 	datacls = datagrp.agg(sum)
 	print(datacls)
@@ -68,7 +79,7 @@ def my_test():
 	# 准备使用测试集进行测试
 	# 测试集315篇文章
 	test_data = pd.read_excel("D:\\2020DataScience\MyWork\Data-Science-Assignment\ZCX\Train_Test\\test.xls", sheet_name=0,
-							  usecols=[4])
+							  usecols=[0,1,4])
 #	print(test_data.head())
 	test_word_list = [cut_with_stopwords(article) for article in test_data['内容']]
 	# 对切词文本进行词频统计
@@ -76,8 +87,19 @@ def my_test():
 	#	print(count_vec.get_feature_names())
 	#	print(test_freq_matrix.toarray())
 	tfidf = transformer.transform(test_freq_matrix)
+	freq_dict = {}#用于记录测试集的分类计数
+	test_kind_count = open("D:\\2020DataScience\MyWork\Data-Science-Assignment\ZCX\Data_visualization\OfficialNewsVisualization"
+						   "\\count.txt","w+",encoding='utf-8')
 	# 对测试数据进行预测
 	test_data['预测'] = kmeans_cluster.predict(tfidf)
+	for label in kmeans_cluster.predict(tfidf):
+		if label in freq_dict:
+			freq_dict[label] += 1
+		else:
+			freq_dict[label] = 1
+	for label in freq_dict:
+		test_kind_count.write(str(label)+" "+str(freq_dict[label])+'\r')
+	test_kind_count.close()
 #	print(test_data.head())
 	t_datagrp = test_data.groupby('预测')
 	t_datacls = t_datagrp.agg(sum)
@@ -100,10 +122,12 @@ def my_test():
 	for itr in test_data.iterrows():
 #		print(itr[0])
 		file.write("------第"+str(index)+"篇文章预测------\r")
+		file.write("文章名：《"+itr[1]['文章名称']+'》 文章时间：'+str(itr[1]['时间'])+'\r')
 		file.write(itr[1]['分类']+'\r'+str(itr[1]['内容'])+"\r\r")
 		index += 1
 	file.close()
 
 
-if __name__ == "__main__":
+if __name__ == '__main__':
 	analyse_kmeans()
+	#分析接口
