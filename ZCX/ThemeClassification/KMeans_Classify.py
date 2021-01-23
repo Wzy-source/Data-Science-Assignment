@@ -22,7 +22,7 @@ def analyse_kmeans():
 	tfidf = transformer.fit_transform(freq_matrix)
 
 	kmeans_cluster.fit(tfidf)
-	data['分类'] = kmeans_cluster.labels_
+	data['标签'] = kmeans_cluster.labels_
 	#对分类结果进行计数
 	kind_cluster_count_f = open("D:\\2020DataScience\MyWork\Data-Science-Assignment\ZCX\Data_visualization\OfficialNewsVisualization\kccf.txt",
 								"w+",encoding='utf-8')
@@ -36,7 +36,7 @@ def analyse_kmeans():
 		kind_cluster_count_f.write(str(label)+" "+str(kind_dict[label])+'\r')
 #	print(data.head())
 	kind_cluster_count_f.close()
-	datagrp = data.groupby('分类')
+	datagrp = data.groupby('标签')
 	datacls = datagrp.agg(sum)
 	print(datacls)
 	cuttex = lambda x:cut_with_stopwords(x)
@@ -44,8 +44,12 @@ def analyse_kmeans():
 
 #	print(dataclusters)
 	print("------------------训练集分类-------------------")
+	key_list = []
 	for item in dataclusters:
 		print(jieba.analyse.extract_tags(item, topK=10))
+		key_list.append(jieba.analyse.extract_tags(item, topK=1))
+	data['分类'] = [map(kind,key_list) for kind in kmeans_cluster.labels_]
+	data.to_excel('D:\\2020DataScience\MyWork\Data-Science-Assignment\ZCX\Train_Test\\train_kind_res.xls',index = False)
 	my_test()
 
 
@@ -71,7 +75,7 @@ def map(kind_num,key_list):
 		return '抗疫相关'
 	if '中国'in key_list[kind_num]:
 		return '国际相关'
-	if'经济社会'in key_list[kind_num]:
+	if'经济社会' or '经济'in key_list[kind_num]:
 		return '经济相关'
 
 
@@ -116,7 +120,7 @@ def my_test():
 	print(key_list)
 	test_data['分类'] = [map(kind, key_list) for kind in kmeans_cluster.predict(tfidf)]
 #	print(test_data)
-
+	test_data.to_excel('D:\\2020DataScience\MyWork\Data-Science-Assignment\ZCX\Train_Test\\test_kin_res.xls',index=False)
 	file = open('D:\\2020DataScience\MyWork\Data-Science-Assignment\ZCX\Train_Test\\predict_res.txt','w+',encoding='utf-8')
 	index = 1
 	for itr in test_data.iterrows():
