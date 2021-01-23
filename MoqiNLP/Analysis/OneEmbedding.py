@@ -11,7 +11,7 @@ for i in range(0, len(all_[0])):
     all_[0][i]=str(all_[0][i])
 
 
-maxlen = 400
+maxlen = 200
 min_count = 20
 content = ''.join(all_[0])
 abc = pd.Series(list(content)).value_counts()
@@ -42,8 +42,8 @@ from keras.layers import Dense, Activation, Dropout, Embedding
 from keras.layers import LSTM
 
 model = Sequential()
-model.add(Embedding(len(abc), 256, input_length=maxlen))
-model.add(LSTM(128))
+model.add(Embedding(len(abc), 676, input_length=maxlen))
+model.add(LSTM(256))
 model.add(Dropout(0.5))
 model.add(Dense(1))
 model.add(Activation('sigmoid'))

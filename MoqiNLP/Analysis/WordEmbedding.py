@@ -61,8 +61,8 @@ from keras.layers import LSTM
 
 # 建立模型
 model = Sequential()
-model.add(Embedding(len(abc), 256, input_length=maxlen))
-model.add(LSTM(128))
+model.add(Embedding(len(abc), 525, input_length=maxlen))
+model.add(LSTM(256))
 model.add(Dropout(0.5))
 model.add(Dense(1))
 model.add(Activation('sigmoid'))
