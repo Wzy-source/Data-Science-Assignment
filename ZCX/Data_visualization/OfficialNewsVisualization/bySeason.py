@@ -1,7 +1,6 @@
 from pyecharts.charts import Bar
 import pandas as pd
 
-
 if __name__ == '__main__':
 	data1 = pd.read_excel("D:\\2020DataScience\MyWork\Data-Science-Assignment\ZCX\Train_Test\\train_kind_res.xls",
 						  usecols=[1,4],sheet_name=0)
