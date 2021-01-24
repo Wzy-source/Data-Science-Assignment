@@ -3,10 +3,10 @@ line = f.readline()
 totalData = []
 monthData = []
 while line:
-    try:
-        monthData.append(float(line[:-1]))
+    if(not line[:-1].isnumeric()):
+        monthData.append(line[:-1])
         # print(line[:-1])
-    except:
+    else:
         totalData.append(monthData)
         monthData = []
         # print(line[:-1])
@@ -20,7 +20,7 @@ for item in totalData:
     negSum = 0
     print("----{}----".format(monthNum))
     for score in item:
-        if score == 1:
+        if score == 'pos':
             posSum = posSum + 1
         else:
             negSum = negSum + 1
