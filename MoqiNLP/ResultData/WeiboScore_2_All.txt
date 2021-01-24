@@ -1156,7 +1156,6 @@ pos
 neg
 neg
 neg
-！！！！！！！！！！10埖！！！！！！！！！！
 neg
 neg
 pos
@@ -5717,7 +5716,6 @@ neg
 neg
 pos
 neg
-！！！！！！！！！！06埖！！！！！！！！！！
 pos
 neg
 pos
@@ -8311,7 +8309,6 @@ pos
 pos
 pos
 pos
-！！！！！！！！！！04埖！！！！！！！！！！
 neg
 neg
 neg
@@ -15485,7 +15482,6 @@ pos
 pos
 pos
 pos
-！！！！！！！！！！03埖！！！！！！！！！！
 pos
 pos
 pos
@@ -18526,7 +18522,6 @@ pos
 pos
 pos
 neg
-！！！！！！！！！！02埖！！！！！！！！！！
 neg
 pos
 pos
@@ -21918,7 +21913,6 @@ neg
 pos
 pos
 neg
-！！！！！！！！！！02埖！！！！！！！！！！
 neg
 neg
 pos
@@ -32595,7 +32589,7 @@ neg
 pos
 neg
 pos
-！！！！！！！！！！20埖！！！！！！！！！！
+！！！！！！！！！！19定12埖！！！！！！！！！！
 neg
 neg
 neg
