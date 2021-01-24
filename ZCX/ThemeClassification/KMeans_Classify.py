@@ -15,6 +15,7 @@ def analyse_kmeans():
 	data = pd.read_excel("D:\\2020DataScience\MyWork\Data-Science-Assignment\ZCX\Train_Test\\train.xls", sheet_name=0,usecols=[0,1,4])
 	#进行分词处理
 	word_list = [cut_with_stopwords(article) for article in data['内容']]
+#	print(word_list)
 	#对切词文本进行词频统计
 	freq_matrix = count_vec.fit_transform(word_list)
 #	print(count_vec.get_feature_names())

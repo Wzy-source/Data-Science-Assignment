@@ -1,6 +1,5 @@
 from sklearn.manifold import TSNE
 import matplotlib.pyplot as plt
-import numpy as np
 from mpl_toolkits.mplot3d import Axes3D
 import pandas as pd
 import jieba
@@ -28,7 +27,7 @@ if __name__ == "__main__":
 	print("尝试将每篇新闻对应的文本向量降维后表示")
 	#读取数据
 	data = pd.read_excel('D:\\2020DataScience\MyWork\Data-Science-Assignment\ZCX\Train_Test\\train_kind_res.xls'
-						 ,sheet_name=0,usecols=[2,3],nrows=3000)#先读10个试试
+						 ,sheet_name=0,usecols=[2,3],nrows=3000)
 	word_list = [cut_with_stopwords(article) for article in data['内容']]
 	count_vec = CountVectorizer(min_df=20)
 	transformer = TfidfTransformer()
