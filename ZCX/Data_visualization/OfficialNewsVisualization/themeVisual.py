@@ -5,7 +5,7 @@ import pandas as pd
 import jieba
 from sklearn.feature_extraction.text import CountVectorizer
 from sklearn.feature_extraction.text import TfidfTransformer
-import re
+from sklearn.decomposition import PCA
 
 def stop_words_list():
 	stop_words = [line.strip() for line in open('D:\\2020DataScience\MyWork\Data-Science-Assignment\ZCX\ThemeClassification\stop_words.txt',encoding='UTF-8').readlines()]
@@ -38,6 +38,7 @@ if __name__ == "__main__":
 	#对tfidf进行降维
 
 	x_tsne = TSNE(n_components=3,random_state=19).fit_transform(tfidf.toarray())
+#	x_tsne = PCA(n_components=3,random_state=19).fit_transform(tfidf.toarray())
 #	print([str(w) for w in x_tsne])
 	#dataFrame无法在一个表格中存下一个list
 	data['x'] = [w[0] for w in x_tsne]

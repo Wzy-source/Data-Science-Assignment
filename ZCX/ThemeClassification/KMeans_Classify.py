@@ -19,7 +19,8 @@ def analyse_kmeans():
 	#对切词文本进行词频统计
 	freq_matrix = count_vec.fit_transform(word_list)
 #	print(count_vec.get_feature_names())
-#	print(freq_matrix.toarray())
+	print(freq_matrix.toarray())
+#	print(freq_matrix)
 	tfidf = transformer.fit_transform(freq_matrix)
 
 	kmeans_cluster.fit(tfidf)
