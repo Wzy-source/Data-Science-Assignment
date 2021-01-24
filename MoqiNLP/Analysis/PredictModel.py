@@ -86,7 +86,7 @@ def jieba_feature(number):
 
 
 def build_features():
-    feature = jieba_feature(300)  # 结巴分词
+    feature = jieba_feature(2000)  # 结巴分词
     posFeatures = []
 
     for items in pos_review:

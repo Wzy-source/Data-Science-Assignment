@@ -9,7 +9,7 @@ stopwordslist = SeparateWords.createwordslist('..\WordsRepos\StopWords\cn_stopwo
 degreeWordsList = SeparateWords.createwordslist('..\WordsRepos\DegreeWords\\all.txt')
 classifier = joblib.load('LogisticRegression.model')
 
-for k in range(1, 2):
+for k in range(1, 8):
     weiboDataList = WeiboData.getDataList(k)
     f = open('..\ResultData\WeiboScore_2_' + str(k) + '.txt', 'w+',encoding='utf-8')
     for singleWeibo in weiboDataList:
