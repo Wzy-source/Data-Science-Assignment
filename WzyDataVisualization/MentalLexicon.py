@@ -31,7 +31,7 @@ dic = {
     '怀疑' :'恶',
     '惊奇' :'惊'
 }
-with open('/Users/mac/PycharmProjects/BigHomework/Data Science Assignment/MoqiNLP/ResultData/WeiboMentalityAll.txt',
+with open('/Users/mac/PycharmProjects/BigHomework/Data Science Assignment/Moqi/ResultData/WeiboMentalityAll.txt',
           'r', encoding='utf-8') as f:
     text = f.read()
 dataList = text.split()
