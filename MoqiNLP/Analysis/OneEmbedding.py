@@ -1,6 +1,6 @@
 import numpy as np
 import pandas as pd
-
+'''失败了'''
 pos = pd.read_excel('..\WordsRepos\\EmotionWords\\positive.xls', header=None)
 pos['label'] = 1
 neg = pd.read_excel('..\WordsRepos\\EmotionWords\\negative.xls', header=None)
@@ -54,7 +54,7 @@ model.compile(loss='binary_crossentropy',
 batch_size = 128
 train_num = 15000
 
-model.fit(x[:train_num], y[:train_num], batch_size=batch_size, epochs=15)
+model.fit(x[:train_num], y[:train_num], batch_size=batch_size, epochs=10)
 model.save("modelv2.0.h5")
 model.evaluate(x[train_num:], y[train_num:], batch_size=batch_size)
 

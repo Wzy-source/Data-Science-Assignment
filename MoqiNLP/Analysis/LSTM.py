@@ -7,7 +7,7 @@ import keras
 import numpy as np
 from keras.datasets import imdb
 from keras.layers import Dense, Dropout, Activation, Flatten
-''' ß∞‹¡À'''
+'''Â§±Ë¥•‰∫Ü'''
 (X_train, y_train), (X_test, y_test) = imdb.load_data()
 
 # m = max(list(map(len, X_train)), list(map(len, X_test)))

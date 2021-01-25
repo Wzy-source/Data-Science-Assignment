@@ -4,6 +4,8 @@ import xlrd
 import MoqiNLP.SeparateWords.SeparateWords as SeparateWords
 from random import shuffle
 import joblib
+from sklearn.naive_bayes import MultinomialNB, BernoulliNB
+from sklearn.linear_model import LogisticRegression
 
 stopwordslist = SeparateWords.createwordslist('..\WordsRepos\StopWords\cn_stopwords.txt')
 degreeWordsList = SeparateWords.createwordslist('..\WordsRepos\DegreeWords\\all.txt')
@@ -29,10 +31,13 @@ def dealData(path):
     return pos_review
 
 
-pos_review = dealData('..\WordsRepos\\EmotionWords\\positive.xls')+dealData('..\WordsRepos\\EmotionWords\\positive.xls')
-neg_review = dealData('..\WordsRepos\\EmotionWords\\negative.xls')+dealData('..\WordsRepos\\EmotionWords\\negative.xls')
-pos_review=pos_review[0:40000]
-neg_review=neg_review[0:32000]
+pos_review = dealData('..\WordsRepos\\EmotionWords\\positive.xls') + dealData(
+    '..\WordsRepos\\EmotionWords\\positive.xls')
+neg_review = dealData('..\WordsRepos\\EmotionWords\\negative.xls') + dealData(
+    '..\WordsRepos\\EmotionWords\\negative.xls')
+pos_review = pos_review[0:40000]
+neg_review = neg_review[0:32000]
+
 
 def build_features():
     posWords = []
@@ -47,73 +52,48 @@ def build_features():
             negWords.append(item)
 
     word_fd = nltk.FreqDist()
-
     cond_word_fd = nltk.ConditionalFreqDist()
 
     for word in posWords:
         word_fd[word] += 1
-
         cond_word_fd['pos'][word] += 1
 
     for word in negWords:
         word_fd[word] += 1
-
         cond_word_fd['neg'][word] += 1
 
     pos_word_count = cond_word_fd['pos'].N()
-
     neg_word_count = cond_word_fd['neg'].N()
-
     total_word_count = pos_word_count + neg_word_count
-
     word_scores = {}
 
     for word, freq in word_fd.items():
         pos_score = nltk.BigramAssocMeasures.chi_sq(cond_word_fd['pos'][word], (freq, pos_word_count),
                                                     total_word_count)
-
         neg_score = nltk.BigramAssocMeasures.chi_sq(cond_word_fd['neg'][word], (freq, neg_word_count),
                                                     total_word_count)
-
         word_scores[word] = pos_score + neg_score
 
-    best_vals = sorted(word_scores.items(), key=lambda item: item[1], reverse=True)[
-                :2000]
-
+    best_vals = sorted(word_scores.items(), key=lambda item: item[1], reverse=True)[:2000]
     best_words = set([w for w, s in best_vals])
-
     feature = dict([(word, True) for word in best_words])
-
     posFeatures = []
 
     for items in pos_review:
-
         a = {}
-
         for item in items:
-
             if item in feature.keys():
                 a[item] = 'True'
-
         posWords = [a, 'pos']
-
         posFeatures.append(posWords)
-
     negFeatures = []
-
     for items in neg_review:
-
         a = {}
-
         for item in items:
-
             if item in feature.keys():
                 a[item] = 'True'
-
         negWords = [a, 'neg']
-
         negFeatures.append(negWords)
-
     return posFeatures, negFeatures
 
 
@@ -133,7 +113,7 @@ data, tag = zip(*test)
 def score(classifier):
     classifier = nltk.SklearnClassifier(classifier)
     classifier.train(train)
-    joblib.dump(classifier,'LogisticRegression.model')
+    joblib.dump(classifier, 'LogisticRegression.model')
     pred = classifier.classify_many(data)
     n = 0
     s = len(pred)
@@ -142,10 +122,7 @@ def score(classifier):
             n = n + 1
     return n / s
 
-from sklearn.naive_bayes import MultinomialNB, BernoulliNB
 
-from sklearn.linear_model import LogisticRegression
+#print('accuracy is %f' % score(BernoulliNB()))
 
-#print('BernoulliNB`s accuracy is %f' % score(BernoulliNB()))
-
-print('LogisticRegression`s accuracy is  %f' % score(LogisticRegression()))
+print('accuracy is  %f' % score(LogisticRegression()))

@@ -42,7 +42,7 @@ def predict_one(s):  # 单个句子的预测函数
 
 model = load_model('model5.h5')
 
-for k in range(7,8):
+for k in range(1,8):
     weiboDataList = WeiboData.getDataList(k)
     f = open('..\ResultData\WeiboScore_2_'+str(k)+'.txt', 'w+')
     for singleWeibo in weiboDataList:

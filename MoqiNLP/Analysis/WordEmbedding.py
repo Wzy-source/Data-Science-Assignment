@@ -1,16 +1,9 @@
 # -*- coding:utf-8 -*-
 
-'''
-word embedding测试
-在GTX960上，18s一轮
-经过30轮迭代，训练集准确率为98.41%，测试集准确率为89.03%
-Dropout不能用太多，否则信息损失太严重
-'''
-
 import numpy as np
 import pandas as pd
 import jieba
-
+'''失败'''
 pos = pd.read_excel('..\WordsRepos\\EmotionWords\\positive.xls', header=None)
 pos['label'] = 1
 neg = pd.read_excel('..\WordsRepos\\EmotionWords\\negative.xls', header=None)
@@ -61,7 +54,7 @@ from keras.layers import LSTM
 
 # 建立模型
 model = Sequential()
-model.add(Embedding(len(abc), 525, input_length=maxlen))
+model.add(Embedding(len(abc), 256, input_length=maxlen))
 model.add(LSTM(256))
 model.add(Dropout(0.5))
 model.add(Dense(1))
@@ -73,7 +66,7 @@ model.compile(loss='binary_crossentropy',
 batch_size = 128
 train_num = 15000
 
-model.fit(x[:train_num], y[:train_num], batch_size=batch_size, epochs=30)
+model.fit(x[:train_num], y[:train_num], batch_size=batch_size, epochs=10)
 
 model.evaluate(x[train_num:], y[train_num:], batch_size=batch_size)
 model.save('modelv2.1.h5')

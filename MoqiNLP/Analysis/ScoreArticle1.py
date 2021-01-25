@@ -14,11 +14,11 @@ def getDataList(table1):
 
 
 def transform(i):
-    if (i == 0 or i == 3):
+    if i == 0 or i == 3:
         return 0.01
-    if (i == 1):
+    if i == 1:
         return 10
-    if (i == 2):
+    if i == 2:
         return -10
 
 
