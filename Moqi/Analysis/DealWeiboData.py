@@ -6,7 +6,7 @@ def getDataTable(path):
     # 地址'D:\GithubRepos\Data-Science-Assignment\WzySpiderProject\\NewsHeadlines\PeopleWebSpider\疫情&抗疫相关新闻信息.xls'
     dataTables = xlrd.open_workbook(path)
     # 获得sheet1
-    listOfTableName = dataTables.sheet_names();
+    listOfTableName = dataTables.sheet_names()
     table1 = dataTables.sheet_by_name(listOfTableName[0])
     return table1
 
